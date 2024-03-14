@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "727374167473",
+    "project_id": "relaxio-1c3b3",
+    "storage_bucket": "relaxio-1c3b3.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:727374167473:android:260bfb152d8455f5f89190",
+        "android_client_info": {
+          "package_name": "com.example.relaxio"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAcfM5CL-f95ajvbLL-99_0wDImquPOSqk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
