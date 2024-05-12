@@ -1,5 +1,11 @@
+import 'dart:async';
+import 'dart:math';
+
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_navigation/get_navigation.dart';
 import 'package:just_audio/just_audio.dart';
 import 'package:relaxio/pages/home/widgets/article_container.dart';
 import 'package:relaxio/pages/home/widgets/circle.dart';
@@ -20,23 +26,114 @@ class _MyHomePageState extends State<MyHomePage> {
   late String image;
   late String url;
   //late String name;
+  String quoteText = '';
+  String? randomQuote = '';
+  List<String> quotes = [];
+
+  double screenWidth = 0;
+  double screenHeight = 0;
+
+  // void fetchQuoteFromFirestore() async {
+  //   // Assuming you have a 'quotes' collection in Firestore with documents containing a 'quote' field
+  //   CollectionReference quotesCollection =
+  //       FirebaseFirestore.instance.collection('daily_quotes');
+  //   QuerySnapshot querySnapshot = await quotesCollection.get();
+  //   print("querysnapshot" + querySnapshot.toString());
+
+  //   if (querySnapshot.docs.isNotEmpty) {
+  //     querySnapshot.docs.forEach((doc) {
+  //       var quoteText = doc[
+  //           'text']; // Access the 'text' field directly from the DocumentSnapshot
+  //       print("quotetext" + quoteText);
+  //       if (quoteText != null) {
+  //         setState(() {
+  //           quotesList.add(quoteText); // Add the fetched text to quotesList
+  //           print("listdhoom" + quotesList.toString());
+  //         });
+
+  //         print("quotelist" + quotesList.toString());
+  //       }
+  //     });
+  //     // if (quotesList.isNotEmpty) {
+  //     //   currentQuoteIndex = (currentQuoteIndex + 1) % quotesList.length;
+  //     //   print("quoteindex" + currentQuoteIndex.toString());
+  //     // }
+  //   }
+  // }
+
+  Future<List<String>> fetchQuotes() async {
+    QuerySnapshot querySnapshot =
+        await FirebaseFirestore.instance.collection('daily_quotes').get();
+
+    //List<String> quotes = [];
+    querySnapshot.docs.forEach((doc) {
+      quotes.add(doc['text']);
+    });
+    print("quotes");
+    print("quotes" + quotes.toString());
+
+    return quotes;
+  }
+
+  void displayRandomQuote() {
+    fetchQuotes().then((quotes) {
+      if (quotes.isNotEmpty) {
+        Random random = Random();
+        int randomIndex = random.nextInt(quotes.length);
+        print("randomindex" + randomIndex.toString());
+        randomQuote = quotes[randomIndex];
+
+        // Display or use the random quote here
+        print("randomQuote" + randomQuote.toString());
+
+        // Schedule the next random quote after 24 hours
+        Future.delayed(Duration(seconds: 50000), displayRandomQuote);
+        setState(() {
+          quoteText = randomQuote.toString();
+        });
+      }
+    });
+  }
+
+//   void startTimer() {
+//     const duration = Duration(seconds: 86400); // Timer duration set to 24 hours
+//     Timer.periodic(duration, (timer) {
+//       if (quotesList.isNotEmpty) {
+//         print("listdoom2");
+//         print("list2" + quotesList.toString());
+//         // Pick a random quote from quotesList
+//         int randomIndex = Random().nextInt(quotesList.length);
+//         String randomQuote = quotesList[randomIndex];
+//         print("randomquote" + randomQuote);
+
+//         // Update quoteText with the randomly selected quote
+//         setState(() {
+//           quoteText = randomQuote;
+//         });
+//       }
+//     });
+//}
 
   @override
   void initState() {
     super.initState();
+    fetchQuotes();
+    displayRandomQuote();
+    //fetchQuoteFromFirestore(); // Fetch quote initially when the widget is first built
+    //startTimer(); // Start the timer to fetch quotes periodically
   }
 
-  double screenWidth = 0;
-  double screenHeight = 0;
   @override
   void dispose() {
     // TODO: implement dispose
     _audioPlayer.dispose();
+
     super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    // displayRandomQuote();
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
 
@@ -57,7 +154,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   child: Padding(
                     padding: EdgeInsets.fromLTRB(screenWidth * 0.03, 0, 0, 0),
                     child: GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Get.toNamed('/Profile');
+                      },
                       child: Container(
                         width: screenWidth * 0.135,
                         height: screenHeight * 0.063,
@@ -95,6 +194,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         //context,
                         //MaterialPageRoute(builder: (context) => const LogScreen()),
                         //);
+
+                        Get.toNamed('/LogScreen1');
                       },
                       child: Container(
                         width: screenWidth * 0.135,
@@ -125,9 +226,10 @@ class _MyHomePageState extends State<MyHomePage> {
                 color: secondaryColor,
                 borderRadius: BorderRadius.circular(40),
               ),
-              child: const Center(
+              child: Center(
                 child: Text(
-                  'Scroll View\n of Quotes',
+                  "${randomQuote}", // Display 'Loading...' while fetching data initially
+
                   style: TextStyle(
                     color: Colors.white,
                     fontWeight: FontWeight.bold,

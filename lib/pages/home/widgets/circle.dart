@@ -52,6 +52,9 @@ class MyCircle extends StatelessWidget {
                     itemCount: data.length,
                     itemBuilder: (context, index, realIdx) {
                       var name1 = data[index].get('technique_name');
+                      var imageUrl = data[index].get('imageUrl');
+                      print("imageUrl Circle" + imageUrl);
+
                       //print("name1" + name1);
 
                       //if (name1 != "MusicList" && name1 != "ArticleList") {
@@ -68,17 +71,24 @@ class MyCircle extends StatelessWidget {
                               //"nameUrl": nameUrl
                               //});
                               );
+                          print(name1);
+
                           //print('/$name1');
                           //print('Button pressed for image at index $index');
                         },
-                        child: Container(
-                          height: screenHeight * 0.1,
-                          width: screenWidth * 0.21,
-                          decoration: BoxDecoration(
-                            shape: BoxShape.circle,
-                            color: Colors.grey,
-                          ),
-                          child: Text(name1),
+                        // child: Container(
+                        //   height: screenHeight * 0.5,
+                        //   width: screenWidth * 0.30,
+                        //   decoration: BoxDecoration(
+                        //     shape: BoxShape.circle,
+                        //     color: Colors.grey,
+                        //   ),
+                        child: Image.network(
+                          // height: screenHeight * 0.25,
+                          // width: screenWidth * 0.35,
+                          //image1[index],
+                          imageUrl,
+                          fit: BoxFit.cover,
                         ),
                       );
                       //   } else if (name1 == "MusicList") {

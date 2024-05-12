@@ -51,6 +51,9 @@ class _articleState extends State<article> {
   Widget build(BuildContext context) {
     double screenWidth = 0;
     double screenHeight = 0;
+    late String imagename;
+
+    late List image1 = [];
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
     return Container(
@@ -77,9 +80,13 @@ class _articleState extends State<article> {
               itemBuilder: (context, index, realIdx) {
                 var article_content = data[index].get('article_content');
                 var article_name = data[index].get('article_name');
+                var imageUrl = data[index].get('imageUrl');
+
                 //var article_category = data[index].get("article_category_id");
                 //var article_category = data[index].get("category_name");
-
+                // for (imagename in imageUrl) {
+                //   image1.add(imagename);
+                // }
                 print("category");
                 //print(article_category[""]);
                 //print("article_title");
@@ -108,13 +115,13 @@ class _articleState extends State<article> {
                             color: secondaryColor,
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          child: Text(
-                            "hello",
-                            textAlign: TextAlign.center,
-                            style: TextStyle(
-                              color: Colors.black, // Set the text color
-                              fontWeight: FontWeight
-                                  .bold, // Set the text fontWeight if needed
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                30), // Clip the image to rounded corners
+                            child: Image.network(
+                              //image1[index],
+                              imageUrl,
+                              fit: BoxFit.cover,
                             ),
                           ),
                         ),

@@ -1,11 +1,12 @@
-// // Copyright 2013 The Flutter Authors. All rights reserved.
-// // Use of this source code is governed by a BSD-style license that can be
-// // found in the LICENSE file.
+// // // // Copyright 2013 The Flutter Authors. All rights reserved.
+// // // // Use of this source code is governed by a BSD-style license that can be
+// // // // found in the LICENSE file.
 
-// // ignore_for_file: public_member_api_docs
+// // // // ignore_for_file: public_member_api_docs
 
-// /// An example of using the plugin, controlling lifecycle and playback of the
-// /// video.
+// // // /// An example of using the plugin, controlling lifecycle and playback of the
+// // /// video.
+
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -13,36 +14,38 @@ import 'package:relaxio/themes/colors.dart';
 import 'package:relaxio/utils/utils.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class video extends StatefulWidget {
-  const video({super.key});
+class Video extends StatefulWidget {
+  const Video({super.key});
 
   @override
-  State<video> createState() => _videoState();
+  State<Video> createState() => _VideoState();
 }
 
-class _videoState extends State<video> {
+class _VideoState extends State<Video> {
   final auth = FirebaseAuth.instance;
 
-  late var youtubeObject;
+  late var videoUrl;
+  late var videoName;
+  late var videoContent;
   late var videoID;
   late YoutubePlayerController _controller;
 
   @override
   void initState() {
     // TODO: implement initState
-    youtubeObject = Get.arguments ?? ['videoUrl'];
-    youtubeObject = Get.arguments ?? ['videoName'];
-    youtubeObject = Get.arguments ?? ['videoContent'];
+    videoUrl = Get.arguments ?? ['videoUrl'];
+    videoName = Get.arguments ?? ['videoName'];
+    videoContent = Get.arguments ?? ['videoContent'];
 
-    print(youtubeObject);
-    videoID = YoutubePlayer.convertUrlToId(youtubeObject["videoUrl"]);
+    print(videoUrl);
+    videoID = YoutubePlayer.convertUrlToId(videoUrl["videoUrl"]);
     print("kem");
     print(videoID);
     _controller = YoutubePlayerController(
       initialVideoId: videoID,
       flags: YoutubePlayerFlags(
         autoPlay: true,
-        mute: true,
+        //mute: true,
       ),
     );
 
@@ -56,6 +59,12 @@ class _videoState extends State<video> {
     //showLiveFullscreenButton: true,
 
     super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 
   @override
@@ -79,15 +88,19 @@ class _videoState extends State<video> {
       ),
       body: YoutubePlayer(
         controller: _controller,
+        liveUIColor: Colors.amber,
         showVideoProgressIndicator: true,
-        progressIndicatorColor: Colors.amber,
-        progressColors: const ProgressBarColors(
-          playedColor: Colors.amber,
-          handleColor: Colors.amberAccent,
-        ),
-        // onReady: () {
-        //   _controller.addListener(listener);
-        // },
+        bottomActions: [
+          CurrentPosition(),
+          ProgressBar(
+            isExpanded: true,
+            colors: const ProgressBarColors(
+              playedColor: Colors.amber,
+              handleColor: Colors.amberAccent,
+            ),
+          ),
+        ],
+        onReady: () => debugPrint('Ready'),
       ),
     );
   }

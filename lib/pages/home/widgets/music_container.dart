@@ -37,6 +37,9 @@ class audio extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = 0;
     double screenHeight = 0;
+    late String imagename;
+
+    late List image1 = [];
 
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
@@ -63,14 +66,23 @@ class audio extends StatelessWidget {
               itemCount: data.length.toInt(),
               itemBuilder: (context, index, realIdx) {
                 //var musicurl = data[index].get('music_url');
-                var musicUrl = data[index].get('filepath');
+                var musicUrl = data[index].get('audioUrls');
                 //var imageUrl = data[index].get('image_url');
-                var nameUrl = data[index].get('audio_name');
+                var nameUrl = data[index].get('audioNames');
+                var imageUrl = data[index].get('imageUrl');
+
                 //var category = data[index].get('category_name');
 
-                print("hello i am");
+                print("gls unim");
 
-                print(nameUrl);
+                print(imageUrl);
+                print("gls i m ");
+
+                // for (imagename in imageUrl) {
+                //   image1.add(imagename);
+                // }
+                //print(image1);
+                //print("gls hello");
 
                 //
                 //
@@ -91,7 +103,14 @@ class audio extends StatelessWidget {
                             color: secondaryColor,
                             borderRadius: BorderRadius.circular(30),
                           ),
-                          //child: Text(category)
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                30), // Clip the image to rounded corners
+                            child: Image.network(
+                              imageUrl,
+                              fit: BoxFit.cover,
+                            ),
+                          ),
                         ),
                       ),
                     ),

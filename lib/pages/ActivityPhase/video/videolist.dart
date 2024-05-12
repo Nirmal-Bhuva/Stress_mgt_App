@@ -158,7 +158,7 @@ class _VideoListState extends State<VideoList> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text(
-                                  '${video_name['video_name'][index]}',
+                                  '${video_name['videoName'][index]}',
                                   style: TextStyle(
                                     fontSize: 16.0,
                                     fontWeight: FontWeight.bold,

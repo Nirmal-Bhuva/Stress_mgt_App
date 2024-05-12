@@ -16,6 +16,10 @@ class video extends StatelessWidget {
   Widget build(BuildContext context) {
     double screenWidth = 0;
     double screenHeight = 0;
+    // late String imagename;
+
+    // late List image1 = [];
+
     screenWidth = MediaQuery.of(context).size.width;
     screenHeight = MediaQuery.of(context).size.height;
     return Container(
@@ -46,6 +50,11 @@ class video extends StatelessWidget {
                 //var imageUrl = data[index].get('image_url');
                 var videoname = data[index].get('video_name');
                 var videocontent = data[index].get('video_content');
+                var imageUrl = data[index].get('imageUrls');
+
+                // for (imagename in imageUrl) {
+                //   image1.add(imagename);
+                // }
 
                 print("hello i am");
                 //print(nameUrl);
@@ -70,6 +79,15 @@ class video extends StatelessWidget {
                           decoration: BoxDecoration(
                             color: secondaryColor,
                             borderRadius: BorderRadius.circular(30),
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.circular(
+                                30), // Clip the image to rounded corners
+                            child: Image.network(
+                              //image1[index],
+                              imageUrl,
+                              fit: BoxFit.cover,
+                            ),
                           ),
                         ),
                       ),
