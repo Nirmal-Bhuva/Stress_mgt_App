@@ -1,5 +1,7 @@
 # relaxio
 
+[Uploading Copy of CP-1.pdf…]()
+
 Our app tracks primary emotions and key factors like health and fitness, offering music, stress management
 videos, guided meditations, and visualizing daily mood fluctuations.
 
