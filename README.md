@@ -1,6 +1,8 @@
 # relaxio
 
-[Uploading Copy of CP-1.pdf…]()
+
+[project pdf.pdf](https://github.com/user-attachments/files/16100685/project.pdf.pdf)
+
 
 Our app tracks primary emotions and key factors like health and fitness, offering music, stress management
 videos, guided meditations, and visualizing daily mood fluctuations.
